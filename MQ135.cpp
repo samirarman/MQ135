@@ -39,7 +39,8 @@ MQ135::MQ135(uint8_t pin) {
 @return The calculated correction factor
 */
 /**************************************************************************/
-float MQ135::getCorrectionFactor(float t, float h) {
+double MQ135::getCorrectionFactor(double t, double h) {
+  
   double low = -0.000006*pow(t,3)+0.0007*pow(t,2)-0.0291*t+1.3684;
   double high = -0.0000032*pow(t,3)+0.0005*pow(t,2)-0.0253*t+1.2373;
   double disp = (high - low) / (83. - 33.);
@@ -53,9 +54,9 @@ float MQ135::getCorrectionFactor(float t, float h) {
 @return The sensor resistance in kOhm
 */
 /**************************************************************************/
-float MQ135::getResistance() {
+double MQ135::getResistance() {
   int val = analogRead(_pin);
-  return ((1023./(float)val) * 5. - 1.)*RLOAD;
+  return ((1023./(double)val)  - 1.)*RLOAD;
 }
 
 /**************************************************************************/
@@ -69,7 +70,7 @@ float MQ135::getResistance() {
 @return The corrected sensor resistance kOhm
 */
 /**************************************************************************/
-float MQ135::getCorrectedResistance(float t, float h) {
+double MQ135::getCorrectedResistance(double t, double h) {
   return getResistance()/getCorrectionFactor(t, h);
 }
 
@@ -80,7 +81,7 @@ float MQ135::getCorrectedResistance(float t, float h) {
 @return The ppm of CO2 in the air
 */
 /**************************************************************************/
-float MQ135::getPPM() {
+double MQ135::getPPM() {
   return PARA * pow((getResistance()/RZERO), -PARB);
 }
 
@@ -95,7 +96,7 @@ float MQ135::getPPM() {
 @return The ppm of CO2 in the air
 */
 /**************************************************************************/
-float MQ135::getCorrectedPPM(float t, float h) {
+double MQ135::getCorrectedPPM(double t, double h) {
   return PARA * pow((getCorrectedResistance(t, h)/RZERO), -PARB);
 }
 
@@ -106,8 +107,8 @@ float MQ135::getCorrectedPPM(float t, float h) {
 @return The sensor resistance RZero in kOhm
 */
 /**************************************************************************/
-float MQ135::getRZero() {
-  return getResistance() * pow((ATMOCO2/PARA), (1./PARB));
+double MQ135::getRZero() {
+  return getResistance() / pow((ATMOCO2/PARA), (1./-PARB));
 }
 
 /**************************************************************************/
@@ -121,6 +122,19 @@ float MQ135::getRZero() {
 @return The corrected sensor resistance RZero in kOhm
 */
 /**************************************************************************/
-float MQ135::getCorrectedRZero(float t, float h) {
-  return getCorrectedResistance(t, h) * pow((ATMOCO2/PARA), (1./PARB));
+double MQ135::getCorrectedRZero(double t, double h) {
+  return getCorrectedResistance(t, h) / pow(ATMOCO2/PARA, (1./-PARB));
 }
+
+
+/**************************************************************************/
+/*
+@brief  Gets the ratio between sensor resistance and RZero
+
+@return The ratio between Rs/R0
+*/
+/**************************************************************************/
+double MQ135::getRsOverRZero() {
+  return pow(ATMOCO2/PARA, (1./-PARB));
+}
+
