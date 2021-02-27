@@ -40,7 +40,10 @@ MQ135::MQ135(uint8_t pin) {
 */
 /**************************************************************************/
 float MQ135::getCorrectionFactor(float t, float h) {
-  return CORA * t * t - CORB * t + CORC - (h-33.)*CORD;
+  double low = -0.000006*pow(t,3)+0.0007*pow(t,2)-0.0291*t+1.3684;
+  double high = -0.0000032*pow(t,3)+0.0005*pow(t,2)-0.0253*t+1.2373;
+  double disp = (high - low) / (83. - 33.);
+  return low + (h - 33.) * disp;
 }
 
 /**************************************************************************/
