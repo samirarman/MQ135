@@ -33,7 +33,7 @@ v1.0 - First release
 #define PARB 0.343698
 
 /// Atmospheric CO2 level for calibration purposes
-#define ATMOCO2 410.27
+#define ATMOCO2 415.24
 
 class MQ135 {
  private:
