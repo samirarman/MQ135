@@ -1,3 +1,5 @@
+
+
 /**************************************************************************/
 /*!
 @file     MQ135.cpp
@@ -82,7 +84,7 @@ double MQ135::getCorrectedResistance(double t, double h) {
 */
 /**************************************************************************/
 double MQ135::getPPM() {
-  return PARA * pow((getResistance()/RZERO), -PARB);
+  return PARA * pow(getResistance()/RZERO, PARB);
 }
 
 /**************************************************************************/
@@ -97,7 +99,7 @@ double MQ135::getPPM() {
 */
 /**************************************************************************/
 double MQ135::getCorrectedPPM(double t, double h) {
-  return PARA * pow((getCorrectedResistance(t, h)/RZERO), -PARB);
+  return PARA * pow((getCorrectedResistance(t, h)/RZERO), PARB);
 }
 
 /**************************************************************************/
@@ -108,7 +110,7 @@ double MQ135::getCorrectedPPM(double t, double h) {
 */
 /**************************************************************************/
 double MQ135::getRZero() {
-  return getResistance() / pow((ATMOCO2/PARA), (1./-PARB));
+  return getResistance() * pow((PARA/ATMOCO2), (1./PARB));
 }
 
 /**************************************************************************/
@@ -123,18 +125,5 @@ double MQ135::getRZero() {
 */
 /**************************************************************************/
 double MQ135::getCorrectedRZero(double t, double h) {
-  return getCorrectedResistance(t, h) / pow(ATMOCO2/PARA, (1./-PARB));
+  return getCorrectedResistance(t, h) * pow(PARA/ATMOCO2, (1./PARB));
 }
-
-
-/**************************************************************************/
-/*
-@brief  Gets the ratio between sensor resistance and RZero
-
-@return The ratio between Rs/R0
-*/
-/**************************************************************************/
-double MQ135::getRsOverRZero() {
-  return pow(ATMOCO2/PARA, (1./-PARB));
-}
-
