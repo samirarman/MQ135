@@ -24,13 +24,12 @@ v1.0 - First release
 /// The load resistance on the board
 // Changing default load resistance to reflect
 // cheap board configuration
-// #define RLOAD 10.0
-# define RLOAD 10.0
+# define RLOAD 20000.
 /// Calibration resistance at atmospheric CO2 level
-#define RZERO 33552408.
+#define RZERO 25637.
 /// Parameters for calculating ppm of CO2 from sensor resistance
-#define PARA 5.071587
-#define PARB 0.343698
+#define PARA 116.6020682
+#define PARB -2.769034857
 
 /// Atmospheric CO2 level for calibration purposes
 #define ATMOCO2 415.24
@@ -48,6 +47,5 @@ class MQ135 {
   double getCorrectedPPM(double t, double h);
   double getRZero();
   double getCorrectedRZero(double t, double h);
-  double getRsOverRZero();
 };
 #endif
