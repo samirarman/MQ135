@@ -28,8 +28,8 @@ v1.0 - First release
 /// Calibration resistance at atmospheric CO2 level
 #define RZERO 25637.
 /// Parameters for calculating ppm of CO2 from sensor resistance
-#define PARA 116.6020682
-#define PARB -2.769034857
+#define PARA 110.19922308061
+#define PARB -2.71518266696
 
 /// Atmospheric CO2 level for calibration purposes
 #define ATMOCO2 415.24
